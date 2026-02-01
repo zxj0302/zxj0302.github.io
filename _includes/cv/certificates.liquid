@@ -7,6 +7,8 @@
     <li class="list-group-item">
       {% if entry.icon %}
         <i class="{{ entry.icon }}"></i>
+      {% else %}
+        <i class="fa-solid fa-award"></i>
       {% endif %}
       {% if entry.url %}
         <strong

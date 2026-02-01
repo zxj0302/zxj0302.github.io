@@ -114,6 +114,12 @@ div.list-group {
   margin-bottom: 2rem;
 }
 
+/* Add padding to CV list items */
+div.cv ul.list-group-flush .list-group-item {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
 td.list-group-category {
   color: var(--global-theme-color);
   margin-bottom: 0.5rem;
