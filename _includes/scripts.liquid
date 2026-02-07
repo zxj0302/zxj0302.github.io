@@ -32,7 +32,9 @@
 
 {% if site.plugins contains 'al_charts' %}
   <!-- Charts and Diagrams -->
-  {% al_charts_scripts %}
+  {% include plugins/al_charts_scripts.liquid %}
+{% else %}
+  {% include plugins/al_charts_scripts_legacy.liquid %}
 {% endif %}
 
 {% if page.calendar %}
