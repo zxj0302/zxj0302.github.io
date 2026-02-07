@@ -73,8 +73,8 @@ layout: default
       </div>
     {% endif %}
 
-    {% if site.newsletter and site.newsletter.enabled and site.footer_fixed %}
-      {% include newsletter.liquid center=true %}
+    {% if site.plugins contains 'al_newsletter' and site.newsletter and site.newsletter.enabled and site.footer_fixed %}
+      {% al_newsletter_form align=center margin=true %}
     {% endif %}
   </article>
 </div>

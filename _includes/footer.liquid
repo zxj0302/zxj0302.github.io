@@ -19,8 +19,8 @@
   </footer>
 {% else %}
   <footer class="sticky-bottom mt-5" role="contentinfo">
-    {% if site.newsletter.enabled %}
-      {% include newsletter.liquid %}
+    {% if site.plugins contains 'al_newsletter' and site.newsletter.enabled %}
+      {% al_newsletter_form align=center %}
     {% endif %}
 
     <div class="container">
