@@ -1,4 +1,4 @@
-name: Unit tests
+name: Integration tests
 
 on:
   push:
@@ -27,7 +27,7 @@ on:
       - ".github/workflows/unit-tests.yml"
 
 jobs:
-  comments-unit-tests:
+  comments-integration-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
@@ -39,5 +39,5 @@ jobs:
           ruby-version: "3.3.5"
           bundler-cache: true
 
-      - name: Run comments unit tests 🧪
-        run: bundle exec ruby -Itest test/al_comments_rendering_test.rb
+      - name: Run comments integration test 🧪
+        run: bash test/integration_comments.sh
