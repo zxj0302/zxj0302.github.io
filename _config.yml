@@ -238,6 +238,7 @@ plugins:
   - al_ext_posts
   - al_img_tools
   - al_utils
+  - al_search
 
 # Sitemap settings
 defaults:
