@@ -122,66 +122,9 @@
   >
 {% endif %}
 
-{% if page.images %}
-  {% if page.images.compare %}
-    <!-- Image comparison slider -->
-    <link
-      defer
-      rel="stylesheet"
-      href="{{ site.third_party_libraries.img-comparison-slider.url.css }}"
-      integrity="{{ site.third_party_libraries.img-comparison-slider.integrity.css }}"
-      crossorigin="anonymous"
-    >
-  {% endif %}
-  {% if page.images.lightbox2 %}
-    <!-- Lightbox2 -->
-    <link
-      defer
-      rel="stylesheet"
-      href="{{ site.third_party_libraries.lightbox2.url.css }}"
-      integrity="{{ site.third_party_libraries.lightbox2.integrity.css }}"
-      crossorigin="anonymous"
-    >
-  {% endif %}
-  {% if page.images.photoswipe %}
-    <!-- Photoswipe -->
-    <link
-      defer
-      rel="stylesheet"
-      href="{{ site.third_party_libraries.photoswipe.url.css }}"
-      crossorigin="anonymous"
-    >
-  {% endif %}
-  {% if page.images.slider %}
-    <!-- Image slider -->
-    <link
-      defer
-      rel="stylesheet"
-      href="{{ site.third_party_libraries.swiper.url.css }}"
-      integrity="{{ site.third_party_libraries.swiper.integrity.css }}"
-      crossorigin="anonymous"
-    >
-  {% endif %}
-  {% if page.images.spotlight %}
-    <!-- Spotlight -->
-    <link
-      defer
-      rel="stylesheet"
-      href="{{ site.third_party_libraries.spotlight.url.css }}"
-      integrity="{{ site.third_party_libraries.spotlight.integrity.css }}"
-      crossorigin="anonymous"
-    >
-  {% endif %}
-  {% if page.images.venobox %}
-    <!-- Venobox -->
-    <link
-      defer
-      rel="stylesheet"
-      href="{{ site.third_party_libraries.venobox.url.css }}"
-      integrity="{{ site.third_party_libraries.venobox.integrity.css }}"
-      crossorigin="anonymous"
-    >
-  {% endif %}
+{% if site.plugins contains 'al_img_tools' %}
+  <!-- Image Features -->
+  {% al_img_tools_styles %}
 {% endif %}
 
 {% if page.tikzjax %}
