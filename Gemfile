@@ -48,6 +48,6 @@ group :al_folio_plugins do
     gem 'al_search'
     gem 'al_charts'
     gem 'al_math'
-    gem 'al_comments'
+    gem 'al_comments', '>= 0.1.1'
     gem 'al_newsletter'
 end

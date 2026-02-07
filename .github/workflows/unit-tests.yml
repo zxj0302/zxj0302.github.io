@@ -1,0 +1,43 @@
+name: Unit tests
+
+on:
+  push:
+    branches:
+      - master
+      - main
+      - v1.0-dev
+    paths:
+      - "Gemfile"
+      - "_config.yml"
+      - "_includes/**"
+      - "_layouts/**"
+      - "test/**"
+      - ".github/workflows/unit-tests.yml"
+  pull_request:
+    branches:
+      - master
+      - main
+      - v1.0-dev
+    paths:
+      - "Gemfile"
+      - "_config.yml"
+      - "_includes/**"
+      - "_layouts/**"
+      - "test/**"
+      - ".github/workflows/unit-tests.yml"
+
+jobs:
+  comments-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby 💎
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3.5"
+          bundler-cache: true
+
+      - name: Run comments unit tests 🧪
+        run: bundle exec ruby -Itest test/al_comments_rendering_test.rb
