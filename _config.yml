@@ -241,6 +241,7 @@ plugins:
   - al_search
   - al_charts
   - al_math
+  - al_comments
 
 # Sitemap settings
 defaults:
