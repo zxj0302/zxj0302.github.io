@@ -40,14 +40,14 @@ end
 
 # Gems for al-folio plugins
 group :al_folio_plugins do
-    gem 'al_analytics', :git => 'https://github.com/al-org-dev/al-analytics.git'
-    gem 'al_citations', :git => 'https://github.com/al-org-dev/al-citations.git'
-    gem 'al_ext_posts', :git => 'https://github.com/al-org-dev/al-ext-posts.git'
-    gem 'al_img_tools', :git => 'https://github.com/al-org-dev/al-img-tools.git'
-    gem 'al_utils', :git => 'https://github.com/al-org-dev/al-utils.git'
-    gem 'al_search', :git => 'https://github.com/al-org-dev/al-search.git'
-    gem 'al_charts', :git => 'https://github.com/al-org-dev/al-charts.git'
-    gem 'al_math', :git => 'https://github.com/al-org-dev/al-math.git'
-    gem 'al_comments', :git => 'https://github.com/al-org-dev/al-comments.git'
-    gem 'al_newsletter', :git => 'https://github.com/al-org-dev/al-newsletter.git'
+    gem 'al_analytics'
+    gem 'al_citations'
+    gem 'al_ext_posts'
+    gem 'al_img_tools'
+    gem 'al_utils'
+    gem 'al_search'
+    gem 'al_charts'
+    gem 'al_math'
+    gem 'al_comments'
+    gem 'al_newsletter'
 end
