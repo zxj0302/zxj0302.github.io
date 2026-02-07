@@ -45,7 +45,9 @@
 
 {% if site.plugins contains 'al_math' %}
   <!-- Math and Tikzjax -->
-  {% al_math_scripts %}
+  {% include plugins/al_math_scripts.liquid %}
+{% else %}
+  {% include plugins/al_math_scripts_legacy.liquid %}
 {% endif %}
 
 {% if page.typograms %}
