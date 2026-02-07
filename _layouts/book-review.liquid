@@ -162,7 +162,9 @@ layout: default
   </article>
 
   {% if site.plugins contains 'al_comments' %}
-    {% al_comments %}
+    {% include plugins/al_comments.liquid %}
+  {% else %}
+    {% include plugins/al_comments_legacy_book_review.liquid %}
   {% endif %}
 </div>
 

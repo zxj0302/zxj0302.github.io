@@ -116,7 +116,9 @@
         <br>
         <br>
         {% if site.plugins contains 'al_comments' %}
-          {% al_comments %}
+          {% include plugins/al_comments.liquid %}
+        {% else %}
+          {% include plugins/al_comments_legacy_distill.liquid %}
         {% endif %}
       </d-article>
     </div>
