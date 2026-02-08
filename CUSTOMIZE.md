@@ -262,8 +262,9 @@ Understanding al-folio's technology stack will help you better customize and ext
 - **Markdown**: Content is written in Markdown format for pages, blog posts, and collections. This makes it easy to create and maintain content without worrying about HTML.
 - **Liquid templating**: [Liquid](https://shopify.github.io/liquid/) is used for dynamic template generation. Liquid templates are used in the `_layouts/` and `_includes/` directories to define how your content should be displayed.
 - **HTML & CSS**: The theme uses semantic HTML5 and modern CSS for styling and layout.
-- **SCSS**: Stylesheets are written in [SCSS (Sass)](https://sass-lang.com/), a CSS preprocessor that provides variables, mixins, and functions for more maintainable styling. SCSS files are located in `_sass/` and compiled to CSS during the build process.
-- **Bootstrap**: [Bootstrap 4.6](https://getbootstrap.com/docs/4.6/) is used for responsive grid layout and base styling components.
+- **Tailwind CSS (v1.x core)**: al-folio `v1.x` is Tailwind-first. Core layout/styling is generated from Tailwind with a small set of theme primitives.
+- **SCSS token bridge**: Theme tokens and dark/light palettes remain in `_sass/` and are bridged into Tailwind-based output.
+- **Bootstrap compatibility mode (optional)**: Legacy Bootstrap-marked content can be supported temporarily through `al_folio.compat.bootstrap.enabled`.
 - **JavaScript**: Minimal JavaScript is used for interactive features like the dark mode toggle, search functionality, and dynamic content rendering.
 - **MathJax**: For rendering mathematical equations in LaTeX format on your pages and blog posts.
 - **Mermaid**: For creating diagrams (flowcharts, sequence diagrams, etc.) directly in Markdown.
@@ -313,7 +314,7 @@ Understanding how these technologies work together will help you customize al-fo
 
 1. **Content Creation**: Write content in Markdown
 2. **Template Processing**: Jekyll processes Markdown through Liquid templates
-3. **Styling**: SCSS files are compiled to CSS, with Bootstrap providing the responsive layout framework
+3. **Styling**: Tailwind generates core styles, while SCSS variables/tokens provide stable theme configuration
 4. **Bibliography**: BibTeX files are processed by jekyll-scholar to generate publication pages
 5. **Static Site Generation**: Jekyll builds all files into static HTML
 6. **Deployment**: GitHub Actions automatically deploys the built site to GitHub Pages
@@ -1091,6 +1092,31 @@ To update a library:
      For detailed instructions on updating specific libraries, see the FAQ:
      - [How can I update Academicons version](FAQ.md#how-can-i-update-academicons-version-on-the-template)
      - [How can I update Font Awesome version](FAQ.md#how-can-i-update-font-awesome-version-on-the-template)
+
+## Bootstrap compatibility mode (v1.x)
+
+al-folio `v1.0` and newer are Tailwind-first. If your site still contains Bootstrap-marked content from older versions, use:
+
+```yaml
+al_folio:
+  compat:
+    bootstrap:
+      enabled: true
+```
+
+### Compatibility matrix
+
+- **Supported through `v1.2`**: common Bootstrap-marked layout/content patterns (for example: `row`, `col-*`, `card`, `btn`, and `data-toggle` attributes for collapse/dropdown/tooltip/popover)
+- **Deprecated in `v1.3`**: compatibility mode remains available but migration warnings become stricter
+- **Removed in `v2.0`**: compatibility mode is no longer part of the official runtime
+
+For upgrades, run:
+
+```bash
+bundle exec al-folio upgrade audit
+bundle exec al-folio upgrade apply --safe
+bundle exec al-folio upgrade report
+```
 
 ## Removing content
 

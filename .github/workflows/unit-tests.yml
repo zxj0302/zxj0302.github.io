@@ -45,6 +45,11 @@ jobs:
           python-version: "3.13"
           cache: "pip"
 
+      - name: Build Tailwind CSS 🎨
+        run: |
+          npm ci
+          npm run build:css
+
       - name: Install build prerequisites 🔧
         run: |
           sudo apt-get update && sudo apt-get install -y imagemagick
@@ -58,3 +63,9 @@ jobs:
 
       - name: Run distill integration test 📄
         run: bash test/integration_distill.sh
+
+      - name: Run bootstrap compatibility integration test 🧩
+        run: bash test/integration_bootstrap_compat.sh
+
+      - name: Run upgrade CLI integration test ⬆️
+        run: bash test/integration_upgrade_cli.sh

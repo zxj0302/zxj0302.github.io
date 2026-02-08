@@ -1,17 +1,14 @@
-<!-- jQuery -->
-<script
-  src="{{ site.third_party_libraries.jquery.url.js }}"
-  integrity="{{ site.third_party_libraries.jquery.integrity.js }}"
-  crossorigin="anonymous"
-></script>
+<script>
+  window.alFolio = {
+    compatBootstrap: {{ site.al_folio.compat.bootstrap.enabled | default: false | jsonify }}
+  };
+</script>
 
-<!-- Bootsrap & MDB scripts -->
-<script src="{{ '/assets/js/bootstrap.bundle.min.js' | relative_url }}"></script>
-<script
-  src="{{ site.third_party_libraries.mdb.url.js }}"
-  integrity="{{ site.third_party_libraries.mdb.integrity.js }}"
-  crossorigin="anonymous"
-></script>
+<!-- Core navigation/runtime scripts -->
+<script src="{{ '/assets/js/nav-toggle.js' | relative_url | bust_file_cache }}"></script>
+{% if site.al_folio.compat.bootstrap.enabled %}
+  <script src="{{ '/assets/js/bootstrap-compat.js' | relative_url | bust_file_cache }}"></script>
+{% endif %}
 
 {% if site.enable_masonry %}
   <!-- Masonry & imagesLoaded -->
@@ -55,12 +52,7 @@
   <script src="{{ '/assets/js/tooltips-setup.js' | relative_url | bust_file_cache }}"></script>
 {% endif %}
 
-{% if page.toc and page.toc.sidebar %}
-  <!-- Sidebar Table of Contents -->
-  <script defer src="{{ '/assets/js/bootstrap-toc.min.js' | relative_url | bust_file_cache }}"></script>
-{% endif %}
-
-{% if page.pretty_table %}
+{% if page.pretty_table and site.al_folio.compat.bootstrap.enabled %}
   <!-- Bootstrap Table -->
   <!-- Bootstrap Table doesn't go well with diff2html -->
   <script

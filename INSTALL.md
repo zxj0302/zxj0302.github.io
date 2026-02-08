@@ -280,17 +280,41 @@ bundle update --all
 
 ## Upgrading from a previous version
 
-If you installed **al-folio** as described above, you can manually update your code by following the steps below:
+Starting with `v1.0`, **al-folio** ships an upgrade CLI and migration manifests under [`migrations/`](migrations/) to make minor upgrades (`v1.0 -> v1.1 -> v1.2`) predictable.
+
+### Recommended workflow (v1.x)
 
 ```bash
-# Assuming the current directory is <your-repo-name>
-git remote add upstream https://github.com/alshedivat/al-folio.git
-git fetch upstream
-git rebase v0.16.3
+# 1) Update dependencies
+bundle update
+
+# 2) Audit your site for breaking/deprecated patterns
+bundle exec al-folio upgrade audit
+
+# 3) Apply deterministic codemods (optional)
+bundle exec al-folio upgrade apply --safe
+
+# 4) Generate a report for manual follow-up
+bundle exec al-folio upgrade report
 ```
 
-If you have extensively customized a previous version, it might be trickier to upgrade.
-You can still follow the steps above, but `git rebase` may result in merge conflicts that must be resolved.
-See [git rebase manual](https://help.github.com/en/github/using-git/about-git-rebase) and how to [resolve conflicts](https://help.github.com/en/github/using-git/resolving-merge-conflicts-after-a-git-rebase) for more information.
-If rebasing is too complicated, we recommend re-installing the new version of the theme from scratch and port over your content and changes from the previous version manually. You can use tools like [meld](https://meldmerge.org/)
-or [winmerge](https://winmerge.org/) to help in this process.
+The report is written to `al-folio-upgrade-report.md` and classifies findings as:
+
+- **Blocking**: must be resolved before the target upgrade is considered complete
+- **Non-blocking**: deprecated patterns that should be migrated over time
+
+### Legacy Bootstrap content
+
+`v1.0` is Tailwind-first. If your content still relies on Bootstrap-marked classes/behaviors:
+
+1. Enable `al_folio.compat.bootstrap.enabled: true` in `_config.yml`
+2. Complete migration gradually
+3. Disable compatibility mode before `v1.3` (compat is supported through `v1.2`, deprecated in `v1.3`, removed in `v2.0`)
+
+### Older pre-v1 installs
+
+For heavily customized pre-v1 repositories, you can still use rebase/cherry-pick workflows if needed, but the recommended path is:
+
+1. Upgrade dependencies
+2. Run the upgrade audit/codemods
+3. Fix blocking findings from `al-folio-upgrade-report.md`

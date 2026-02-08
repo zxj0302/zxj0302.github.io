@@ -44,6 +44,23 @@ external_services:
   github_profile_trophy_url: https://github-profile-trophy.vercel.app
 
 # -----------------------------------------------------------------------------
+# al-folio API (v1.x)
+# -----------------------------------------------------------------------------
+
+al_folio:
+  api_version: 1
+  style_engine: tailwind
+  compat:
+    bootstrap:
+      enabled: false
+      support_window: v1.0-v1.2
+      deprecates_in: v1.3
+      removed_in: v2.0
+  upgrade:
+    channel: stable
+    auto_apply_safe_fixes: false
+
+# -----------------------------------------------------------------------------
 # RSS Feed
 # -----------------------------------------------------------------------------
 # will use title and url fields
@@ -200,10 +217,15 @@ exclude:
   - lighthouse_results/
   - package.json
   - package-lock.json
+  - postcss.config.js
   - _pages/about_einstein.md
   - purgecss.config.js
   - README.md
   - readme_preview/
+  - assets/tailwind/
+  - gems/
+  - migrations/
+  - tailwind.config.js
   - vendor
 keep_files:
   - CNAME
@@ -233,6 +255,9 @@ plugins:
   - jemoji
 
   # al-folio plugins
+  - al_folio_core
+  - al_folio_upgrade
+  - al_folio_bootstrap_compat
   - al_analytics
   - al_citations
   - al_ext_posts

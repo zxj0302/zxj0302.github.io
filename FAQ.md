@@ -15,6 +15,8 @@ Here are some frequently asked questions. If you have a different question, plea
   - [When I manually run the Lighthouse Badger workflow, it fails with Error: Input required and not supplied: token. How do I fix that?](#when-i-manually-run-the-lighthouse-badger-workflow-it-fails-with-error-input-required-and-not-supplied-token-how-do-i-fix-that)
   - [My code runs fine locally, but when I create a commit and submit it, it fails with prettier code formatter workflow run failed for main branch. How do I fix that?](#my-code-runs-fine-locally-but-when-i-create-a-commit-and-submit-it-it-fails-with-prettier-code-formatter-workflow-run-failed-for-main-branch-how-do-i-fix-that)
   - [After I update my site with some new content, even a small change, the GitHub action throws an error or displays a warning. What happened?](#after-i-update-my-site-with-some-new-content-even-a-small-change-the-github-action-throws-an-error-or-displays-a-warning-what-happened)
+  - [How do I upgrade from al-folio `v1.0` to `v1.1+` with minimal friction?](#how-do-i-upgrade-from-al-folio-v10-to-v11-with-minimal-friction)
+  - [How do I handle legacy Bootstrap-marked pages on Tailwind-first `v1.x`?](#how-do-i-handle-legacy-bootstrap-marked-pages-on-tailwind-first-v1x)
   - [I am trying to deploy my site, but it fails with Could not find gem 'jekyll-diagrams' in locally installed gems. How do I fix that?](#i-am-trying-to-deploy-my-site-but-it-fails-with-could-not-find-gem-jekyll-diagrams-in-locally-installed-gems-how-do-i-fix-that)
   - [How can I update Academicons version on the template](#how-can-i-update-academicons-version-on-the-template)
   - [How can I update Font Awesome version on the template](#how-can-i-update-font-awesome-version-on-the-template)
@@ -95,9 +97,43 @@ The following actions uses node12 which is deprecated and will be forced to run 
 The `set-output` command is deprecated and will be disabled soon. Please upgrade to using Environment Files. For more information see: https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
 ```
 
-If that's the case, you are using deprecated libraries/commands. This happens because you are using a very old version of al-folio. To fix this it is recommended [upgrading your code to the latest version](INSTALL.md#upgrading-from-a-previous-version) of the template. You will probably need to do some manual merging. If you find it easier, you could create a copy of your repository, do a fresh installation from the template and reapply all your changes. For this I would recommend a tool like [meld](https://meldmerge.org/) or [winmerge](https://winmerge.org/) to check the differences between directories/files.
+If that's the case, you are using deprecated libraries/commands. This happens because you are using an old version of al-folio. Follow the [upgrade guide](INSTALL.md#upgrading-from-a-previous-version) and run the upgrade CLI:
+
+```bash
+bundle exec al-folio upgrade audit
+bundle exec al-folio upgrade apply --safe
+bundle exec al-folio upgrade report
+```
 
 Note that libraries tend to be deprecated and support for them dropped as they are no longer maintained, and keep using them involves security breaches. Also, some of these deprecations are enforced, for example, by GitHub itself, so there's so much we can do. We have also added tons of new functionality, as well as tidying things up and improving the overall speed and structure, so you could also benefit from these improvements.
+
+## How do I upgrade from al-folio `v1.0` to `v1.1+` with minimal friction?
+
+Use the SemVer migration flow:
+
+1. `bundle update`
+2. `bundle exec al-folio upgrade audit`
+3. `bundle exec al-folio upgrade apply --safe` (optional)
+4. `bundle exec al-folio upgrade report`
+
+Then resolve all **Blocking** findings in `al-folio-upgrade-report.md`. Non-blocking findings are deprecated patterns you can migrate incrementally.
+
+## How do I handle legacy Bootstrap-marked pages on Tailwind-first `v1.x`?
+
+`v1.x` core is Tailwind-first. If your content still relies on Bootstrap-marked classes or `data-toggle` behavior, enable compatibility mode temporarily:
+
+```yaml
+al_folio:
+  compat:
+    bootstrap:
+      enabled: true
+```
+
+Compatibility timeline:
+
+- Supported through `v1.2`
+- Deprecated in `v1.3`
+- Removed in `v2.0`
 
 ## I am trying to deploy my site, but it fails with `Could not find gem 'jekyll-diagrams' in locally installed gems`. How do I fix that?
 

@@ -8,17 +8,21 @@
   http-equiv="Content-Security-Policy"
   content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"
 >
+<style>
+  :root {
+    --max-content-width: {{ site.max_width | default: '930px' }};
+  }
+</style>
 
-<!-- Bootstrap & MDB -->
-<link rel="stylesheet" href="{{ '/assets/css/bootstrap.min.css' | relative_url | bust_file_cache }}">
-<link
-  rel="stylesheet"
-  href="{{ site.third_party_libraries.mdb.url.css }}"
-  integrity="{{ site.third_party_libraries.mdb.integrity.css }}"
-  crossorigin="anonymous"
->
+<!-- Tailwind-first core styles -->
+<link rel="stylesheet" href="{{ '/assets/css/tailwind.css' | relative_url | bust_file_cache }}">
 
-{% if page.pretty_table %}
+{% if site.al_folio.compat.bootstrap.enabled %}
+  <!-- Optional Bootstrap compatibility layer -->
+  <link rel="stylesheet" href="{{ '/assets/css/bootstrap-compat.css' | relative_url | bust_file_cache }}">
+{% endif %}
+
+{% if page.pretty_table and site.al_folio.compat.bootstrap.enabled %}
   <!-- Bootstrap Table -->
   <link
     defer
@@ -47,11 +51,6 @@
   media=""
   id="highlight_theme_light"
 >
-
-{% if page.toc and page.toc.sidebar %}
-  <!-- Sidebar Table of Contents -->
-  <link defer href="{{ '/assets/css/bootstrap-toc.min.css' | relative_url | bust_file_cache }}" rel="stylesheet">
-{% endif %}
 
 <!-- Styles -->
 
