@@ -31,7 +31,7 @@ on:
 jobs:
   visual-regression:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 10
     steps:
       - name: Checkout candidate 🛎️
         uses: actions/checkout@v4
@@ -59,7 +59,13 @@ jobs:
       - name: Prepare baseline worktree (v0.16.3) 🧱
         run: |
           git worktree add ../al-folio-baseline v0.16.3
-          (cd ../al-folio-baseline && npm ci)
+          (cd ../al-folio-baseline && bundle install && npm ci)
+
+      - name: Install Jupyter + ImageMagick runtime deps 🧰
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick python3-pip
+          pip3 install --user jupyter nbconvert
 
       - name: Install Playwright browser 🧪
         run: npx playwright install --with-deps chromium
@@ -69,9 +75,46 @@ jobs:
           BASELINE_URL: http://127.0.0.1:4100/al-folio
           NO_WEBSERVER: '1'
         run: |
+          set -euo pipefail
+          export PATH="$HOME/.local/bin:$PATH"
+
           (cd ../al-folio-baseline && bundle exec jekyll serve --host 127.0.0.1 --port 4100 --baseurl /al-folio --quiet > /tmp/jekyll-baseline.log 2>&1) &
+          BASELINE_PID=$!
           (bundle exec jekyll serve --host 127.0.0.1 --port 4000 --baseurl /al-folio --quiet > /tmp/jekyll-candidate.log 2>&1) &
-          npx wait-on http://127.0.0.1:4000/al-folio/ http://127.0.0.1:4100/al-folio/
+          CANDIDATE_PID=$!
+
+          cleanup() {
+            kill "$BASELINE_PID" "$CANDIDATE_PID" >/dev/null 2>&1 || true
+          }
+          trap cleanup EXIT
+
+          READY=0
+          for _ in {1..150}; do
+            if curl -fsS http://127.0.0.1:4000/al-folio/ >/dev/null && curl -fsS http://127.0.0.1:4100/al-folio/ >/dev/null; then
+              READY=1
+              break
+            fi
+
+            if ! kill -0 "$BASELINE_PID" >/dev/null 2>&1 || ! kill -0 "$CANDIDATE_PID" >/dev/null 2>&1; then
+              echo "Jekyll server exited before becoming ready."
+              echo "--- baseline log ---"
+              cat /tmp/jekyll-baseline.log || true
+              echo "--- candidate log ---"
+              cat /tmp/jekyll-candidate.log || true
+              exit 1
+            fi
+            sleep 2
+          done
+
+          if [ "$READY" -ne 1 ]; then
+            echo "Timed out waiting for Jekyll servers (5 minutes)."
+            echo "--- baseline log ---"
+            cat /tmp/jekyll-baseline.log || true
+            echo "--- candidate log ---"
+            cat /tmp/jekyll-candidate.log || true
+            exit 1
+          fi
+
           npm run test:visual -- --reporter=line
 
       - name: Upload Playwright report 📄
