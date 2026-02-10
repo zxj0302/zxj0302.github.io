@@ -59,3 +59,30 @@ test('repositories page renders external stat cards with deterministic fixtures'
   );
   expect(renderedCount).toBeGreaterThan(0);
 });
+
+test('blog pagination uses core Tailwind-native styling contract', async ({ page }) => {
+  await preparePage(page, 'light');
+  await page.goto('al-folio/blog/', { waitUntil: 'networkidle' });
+  await stabilizeVisuals(page);
+
+  const pagination = page.locator('.af-pagination');
+  await expect(pagination.first()).toBeVisible();
+
+  const pageLink = page.locator('.af-page-link').first();
+  await expect(pageLink).toBeVisible();
+
+  const styles = await pageLink.evaluate((node) => {
+    const computed = window.getComputedStyle(node);
+    return {
+      borderTopWidth: computed.borderTopWidth,
+      backgroundColor: computed.backgroundColor,
+      paddingTop: computed.paddingTop,
+      paddingLeft: computed.paddingLeft,
+    };
+  });
+
+  expect(styles.borderTopWidth).not.toBe('0px');
+  expect(styles.backgroundColor).not.toBe('rgba(0, 0, 0, 0)');
+  expect(styles.paddingTop).not.toBe('0px');
+  expect(styles.paddingLeft).not.toBe('0px');
+});

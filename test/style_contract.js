@@ -64,6 +64,35 @@ const resolveThemeFile = (rel) => {
 
 const read = (rel) => fs.readFileSync(resolveThemeFile(rel), 'utf8');
 
+const resolveThemeRoot = () => {
+  const localIncludes = path.join(root, "_includes");
+  if (fs.existsSync(localIncludes)) {
+    return root;
+  }
+  const coreGemRoot = gemRoot("al_folio_core", "al-folio-core");
+  if (coreGemRoot && fs.existsSync(path.join(coreGemRoot, "_includes"))) {
+    return coreGemRoot;
+  }
+  return "";
+};
+
+const walkFiles = (dir, matcher, files = []) => {
+  if (!dir || !fs.existsSync(dir)) {
+    return files;
+  }
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      walkFiles(fullPath, matcher, files);
+      continue;
+    }
+    if (matcher(fullPath)) {
+      files.push(fullPath);
+    }
+  }
+  return files;
+};
+
 const failures = [];
 
 const utilitiesScss = read('_sass/_utilities.scss');
@@ -97,6 +126,50 @@ if (!repositoryInclude.includes('class="repo p-2 text-center"')) {
 }
 if (!repositoryUserInclude.includes('class="repo p-2 text-center"')) {
   failures.push('`_includes/repository/repo_user.liquid` must preserve the `.repo` container class contract.');
+}
+
+const coreThemeRoot = resolveThemeRoot();
+if (!coreThemeRoot) {
+  failures.push("Unable to locate theme root for template class contract checks.");
+} else {
+  const sassFiles = walkFiles(path.join(coreThemeRoot, "_sass"), (file) => file.endsWith(".scss"));
+  const classSources = [read("assets/css/tailwind.css"), ...sassFiles.map((file) => fs.readFileSync(file, "utf8"))].join("\n");
+  const templateFiles = [
+    ...walkFiles(path.join(coreThemeRoot, "_includes"), (file) => file.endsWith(".liquid")),
+    ...walkFiles(path.join(coreThemeRoot, "_layouts"), (file) => file.endsWith(".liquid")),
+    ...walkFiles(path.join(root, "_pages"), (file) => file.endsWith(".md") || file.endsWith(".liquid")),
+  ];
+
+  const bootstrapPattern =
+    /^(container|row|col-|col$|row-cols|card|btn|navbar|dropdown|pagination|page-item|page-link|badge|table|collapse|fixed-top|sticky-top|no-gutters|g-0|ml-|mr-|d-|justify-content|align-items|text-|float-)/;
+  const classAttrPattern = /class\s*=\s*"([^"]+)"/g;
+  const seenBootstrapLikeClasses = new Set();
+
+  for (const file of templateFiles) {
+    const content = fs.readFileSync(file, "utf8");
+    let classAttrMatch;
+    while ((classAttrMatch = classAttrPattern.exec(content)) !== null) {
+      const normalized = classAttrMatch[1].replace(/\{\{[\s\S]*?\}\}|\{%[\s\S]*?%\}/g, " ");
+      for (const token of normalized.split(/\s+/).filter(Boolean)) {
+        if (token.endsWith("-")) {
+          continue;
+        }
+        if (bootstrapPattern.test(token)) {
+          seenBootstrapLikeClasses.add(token);
+        }
+      }
+    }
+  }
+
+  for (const className of [...seenBootstrapLikeClasses].sort()) {
+    const escapedClass = className.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const selectorPattern = new RegExp(`\\.${escapedClass}(?![A-Za-z0-9_-])`);
+    if (!selectorPattern.test(classSources)) {
+      failures.push(
+        `Template class contract broken: \`.${className}\` is used in layouts/includes/pages but not defined by core CSS assets.`
+      );
+    }
+  }
 }
 
 if (failures.length > 0) {
