@@ -69,7 +69,7 @@ jobs:
           pip3 install --user jupyter nbconvert
 
       - name: Install Playwright browser 🧪
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps chromium webkit
 
       - name: Run visual parity checks 👀
         env:
