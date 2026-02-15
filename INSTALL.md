@@ -321,3 +321,5 @@ For heavily customized pre-v1 repositories, you can still use rebase/cherry-pick
 1. Upgrade dependencies
 2. Run the upgrade audit/codemods
 3. Fix blocking findings from `al-folio-upgrade-report.md`
+
+For ownership boundaries (starter vs gem runtime/tests), see [`BOUNDARIES.md`](BOUNDARIES.md).

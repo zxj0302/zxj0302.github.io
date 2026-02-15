@@ -1,8 +1,5 @@
 {
   "scripts": {
-    "build:css": "echo \"Starter uses precompiled core assets from al_folio_core; skipping local Tailwind build.\"",
-    "build:tailwind": "echo \"Tailwind source is owned by al_folio_core. Use al-folio-core for style pipeline changes.\"",
-    "build:tailwind:watch": "echo \"Tailwind source is owned by al_folio_core. Use al-folio-core for style pipeline changes.\"",
     "lint:prettier": "prettier . --check",
     "lint:style-contract": "node test/style_contract.js",
     "test:visual": "playwright test --config test/visual/playwright.config.js",

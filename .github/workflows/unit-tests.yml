@@ -8,10 +8,16 @@ on:
       - v1.0-dev
     paths:
       - "Gemfile"
+      - "Gemfile.lock"
       - "_config.yml"
-      - "_includes/**"
-      - "_layouts/**"
+      - "_data/**"
+      - "_pages/**"
+      - "_posts/**"
+      - "_projects/**"
+      - "assets/**"
       - "test/**"
+      - "package.json"
+      - "package-lock.json"
       - ".github/workflows/unit-tests.yml"
   pull_request:
     branches:
@@ -20,10 +26,16 @@ on:
       - v1.0-dev
     paths:
       - "Gemfile"
+      - "Gemfile.lock"
       - "_config.yml"
-      - "_includes/**"
-      - "_layouts/**"
+      - "_data/**"
+      - "_pages/**"
+      - "_posts/**"
+      - "_projects/**"
+      - "assets/**"
       - "test/**"
+      - "package.json"
+      - "package-lock.json"
       - ".github/workflows/unit-tests.yml"
 
 jobs:
@@ -51,10 +63,8 @@ jobs:
           node-version: "20"
           cache: "npm"
 
-      - name: Build Tailwind CSS 🎨
-        run: |
-          npm ci
-          npm run build:css
+      - name: Install JS deps 📦
+        run: npm ci
 
       - name: Run style contract lint 🧷
         run: npm run lint:style-contract

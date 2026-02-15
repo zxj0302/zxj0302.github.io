@@ -8,12 +8,15 @@ on:
       - v1.0-dev
     paths:
       - "_config.yml"
-      - "_includes/**"
-      - "_layouts/**"
+      - "_data/**"
+      - "_pages/**"
+      - "_posts/**"
+      - "_projects/**"
       - "assets/**"
-      - ".github/workflows/upgrade-check.yml"
       - "Gemfile"
       - "Gemfile.lock"
+      - "test/integration_upgrade_cli.sh"
+      - ".github/workflows/upgrade-check.yml"
   pull_request:
     branches:
       - master
@@ -21,12 +24,15 @@ on:
       - v1.0-dev
     paths:
       - "_config.yml"
-      - "_includes/**"
-      - "_layouts/**"
+      - "_data/**"
+      - "_pages/**"
+      - "_posts/**"
+      - "_projects/**"
       - "assets/**"
-      - ".github/workflows/upgrade-check.yml"
       - "Gemfile"
       - "Gemfile.lock"
+      - "test/integration_upgrade_cli.sh"
+      - ".github/workflows/upgrade-check.yml"
 
 jobs:
   upgrade-check:

@@ -121,25 +121,10 @@ The project is structured as follows, focusing on the main components that you w
 |   └── 📄 404.md: 404 page (page not found)
 ├── 📂 _posts/: contains the blog posts
 ├── 📂 _projects/: contains the projects
-├── 📂 assets/tailwind/: Tailwind CSS source entrypoint (`app.css`) and layering
-└── 📂 _sass/: legacy SASS compatibility bridge (v1.x)
-    ├── 📂 font-awesome/: contains the SCSS files for Font Awesome
-    ├── 📄 _blog.scss: blog post, tags, and pagination styles
-    ├── 📄 _components.scss: reusable component styles (cards, profiles, CV, projects)
-    ├── 📄 _cv.scss: style of the CV page
-    ├── 📄 _distill.scss: style of the Distill articles
-    ├── 📄 _footer.scss: footer styles
-    ├── 📄 _layout.scss: overall layout styles
-    ├── 📄 _navbar.scss: navigation bar and dropdown menu styles
-    ├── 📄 _publications.scss: publication list and bibliography styles
-    ├── 📄 _tabs.scss: tabbed content styles
-    ├── 📄 _teachings.scss: course and teaching styles
-    ├── 📄 _themes.scss: theme colors and icons
-    ├── 📄 _typograms.scss: typogram diagram styles
-    ├── 📄 _typography.scss: text, headings, links, tables, and blockquote styles
-    ├── 📄 _utilities.scss: utility styles (code highlighting, forms, modals, animations)
-    └── 📄 _variables.scss: variables used in the SASS files
+└── 📂 test/: starter integration + visual regression checks
 ```
+
+In `v1.x`, the starter is intentionally thin. Theme internals (layouts/includes/style pipeline/runtime assets) are owned by gems such as `al_folio_core` and `al_folio_distill`.
 
 ## Configuration
 
@@ -149,12 +134,7 @@ The configuration file [\_config.yml](_config.yml) contains the main configurati
 
 All changes made to this file are only visible after you rebuild the website. That means that you need to run `bundle exec jekyll serve` again if you are running the website locally or push your changes to GitHub if you are using GitHub Pages. All other changes are visible immediately, you only need to refresh the page.
 
-For style changes in v1.x, run:
-
-```bash
-npm ci
-npm run build:css
-```
+For `v1.x` starter sites, no local npm style build is required. Core CSS/runtime assets are shipped by the owning gems.
 
 If changes don't appear after refreshing, try:
 
@@ -1332,14 +1312,16 @@ In this folder you need to store your file in the same format as you would in `_
 
 ### Customizing the consent dialog
 
-The consent dialog configuration and messages are defined in [`_scripts/cookie-consent-setup.js`](_scripts/cookie-consent-setup.js). You can customize:
+The consent dialog configuration and messages are defined in core include template logic (`al_folio_core/_includes/plugins/al_cookie_consent_setup.liquid`). You can customize by adding a local override include at the same path in your site:
+
+`_includes/plugins/al_cookie_consent_setup.liquid`
 
 - Dialog titles and button labels
 - Cookie categories and descriptions
 - Contact information links (points to `#contact` by default)
 - Language translations
 
-To modify the dialog, edit the `language.translations.en` section in `_scripts/cookie-consent-setup.js`. For example, to change the consent dialog title:
+To modify the dialog, edit the `language.translations.en` section in your local override include. For example, to change the consent dialog title:
 
 ```javascript
 consentModal: {

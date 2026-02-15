@@ -120,6 +120,22 @@ Then resolve all **Blocking** findings in `al-folio-upgrade-report.md`. Non-bloc
 
 For starter-based sites, keep `theme: al_folio_core` and avoid copying theme internals into your repo unless you intentionally need overrides.
 
+## Why does `v1.x` starter not have `npm run build:css` anymore?
+
+`al-folio` is a thin starter in `v1.x`. Tailwind/runtime build ownership moved to gem repos (primarily `al_folio_core` and feature gems), so starter builds do not require local npm CSS build commands.
+
+Use starter tests for:
+
+- visual regression/parity checks
+- cross-gem integration checks
+
+Use gem repos for:
+
+- component correctness/unit tests
+- plugin/runtime asset contract tests
+
+See [`BOUNDARIES.md`](BOUNDARIES.md) for the ownership contract.
+
 ## How do I handle legacy Bootstrap-marked pages on Tailwind-first `v1.x`?
 
 `v1.x` core is Tailwind-first. If your content still relies on Bootstrap-marked classes or `data-toggle` behavior, enable compatibility mode temporarily:

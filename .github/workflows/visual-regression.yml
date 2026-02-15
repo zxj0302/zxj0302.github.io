@@ -4,9 +4,11 @@ on:
   pull_request:
     branches: [main, master, v1.0-dev]
     paths:
-      - '_includes/**'
-      - '_layouts/**'
-      - '_sass/**'
+      - '_config.yml'
+      - '_data/**'
+      - '_pages/**'
+      - '_posts/**'
+      - '_projects/**'
       - 'assets/**'
       - 'test/visual/**'
       - '.github/workflows/visual-regression.yml'
@@ -17,9 +19,11 @@ on:
   push:
     branches: [v1.0-dev]
     paths:
-      - '_includes/**'
-      - '_layouts/**'
-      - '_sass/**'
+      - '_config.yml'
+      - '_data/**'
+      - '_pages/**'
+      - '_posts/**'
+      - '_projects/**'
       - 'assets/**'
       - 'test/visual/**'
       - '.github/workflows/visual-regression.yml'
@@ -52,9 +56,6 @@ jobs:
 
       - name: Install JS deps 📦
         run: npm ci
-
-      - name: Build candidate CSS 🎨
-        run: npm run build:css
 
       - name: Prepare baseline worktree (v0.16.3) 🧱
         run: |
