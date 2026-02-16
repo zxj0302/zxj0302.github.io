@@ -42,7 +42,7 @@ end
 group :al_folio_plugins do
     gem 'al_folio_core', '= 1.0.0'
     gem 'al_folio_cv', '= 1.0.0'
-    gem 'al_folio_distill', '= 1.0.0'
+    gem 'al_folio_distill', :git => 'https://github.com/al-org-dev/al-folio-distill.git', :branch => 'main'
     gem 'al_folio_upgrade', '= 1.0.0'
     gem 'al_folio_bootstrap_compat', '= 1.0.0'
     gem 'al_cookie', '= 1.0.0'
