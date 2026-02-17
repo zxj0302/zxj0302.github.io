@@ -33,6 +33,9 @@ if (!/^\s*-\s*al_cookie\s*$/m.test(config)) {
 if (!/^\s*-\s*al_icons\s*$/m.test(config)) {
   failures.push("`_config.yml` plugins must include `al_icons` (icon runtime is plugin-owned).");
 }
+if (!/^\s*-\s*al_math\s*$/m.test(config)) {
+  failures.push("`_config.yml` plugins must include `al_math` when math features are enabled.");
+}
 
 for (const libraryKey of ["fontawesome", "academicons", "scholar-icons"]) {
   if (!new RegExp(`^\\s{2}${escapeRegExp(libraryKey)}:\\s*$`, "m").test(config)) {
@@ -42,6 +45,20 @@ for (const libraryKey of ["fontawesome", "academicons", "scholar-icons"]) {
   if (!new RegExp(`^\\s{2}${escapeRegExp(libraryKey)}:[\\s\\S]*?^\\s{4}integrity:\\s*$[\\s\\S]*?^\\s{6}css:\\s*\"sha`, "m").test(config)) {
     failures.push(`\`_config.yml\` should define an SRI hash for \`third_party_libraries.${libraryKey}.integrity.css\`.`);
   }
+}
+
+for (const libraryKey of ["tikzjax", "tocbot"]) {
+  if (!new RegExp(`^\\s{2}${escapeRegExp(libraryKey)}:\\s*$`, "m").test(config)) {
+    failures.push(`\`_config.yml\` must define \`third_party_libraries.${libraryKey}\` for v1 runtime contracts.`);
+  }
+}
+
+const gemfile = read("Gemfile");
+if (!/gem 'al_math', '= 1\.0\.1'/.test(gemfile)) {
+  failures.push("`Gemfile` should pin `al_math` to released version `1.0.1`.");
+}
+if (/gem 'al_math',\s*:git =>/.test(gemfile)) {
+  failures.push("`Gemfile` must not use git-branch pin for `al_math`; use released gem version.");
 }
 
 for (const forbiddenPath of ["_includes", "_layouts", "_sass", "_scripts", "assets/tailwind", "tailwind.config.js", "assets/webfonts"]) {

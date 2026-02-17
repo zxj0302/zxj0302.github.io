@@ -853,6 +853,46 @@ socials_in_search: true
 
 All these search features work in real-time and do not require a page reload. Search runtime assets are owned by the `al_search` plugin.
 
+The navbar search button and the `Ctrl/Cmd + K` shortcut both open the same search modal.
+
+## Sidebar table of contents (Tocbot)
+
+Use front matter on pages/posts:
+
+```yaml
+toc:
+  sidebar: left # or right
+```
+
+In `v1.x`, sidebar TOC rendering is powered by Tocbot (configured in `_config.yml` under `third_party_libraries.tocbot`).  
+You can override displayed TOC labels per heading with `data-toc-text`:
+
+```markdown
+## Customizing Your Table of Contents
+
+{:data-toc-text="Customizing"}
+```
+
+## Pretty tables in Tailwind mode
+
+Set `pretty_table: true` in front matter to enable interactive tables.
+
+- If `al_folio.compat.bootstrap.enabled: true`, Bootstrap Table runtime is used.
+- If `al_folio.compat.bootstrap.enabled: false`, the built-in Tailwind-first vanilla table engine is used.
+
+The Tailwind table engine supports `data-toggle="table"` plus search, pagination, sortable columns, and click-to-select.
+
+## Lightbox images
+
+Set in front matter:
+
+```yaml
+images:
+  lightbox2: true
+```
+
+`v1.x` uses the `al_img_tools` plugin lightbox adapter (vanilla JS, no jQuery requirement) while keeping existing `data-lightbox` markup.
+
 ## Social media previews
 
 **al-folio** supports Open Graph (OG) meta tags, which create rich preview objects when your pages are shared on social media platforms like Twitter, Facebook, LinkedIn, and others. These previews include your site's image, title, and description.
@@ -1068,6 +1108,8 @@ third_party_libraries:
 - `integrity`: [Subresource Integrity (SRI)](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) hashes ensure that the library hasn't been tampered with. When updating a library version, you should also update its integrity hash.
 - `v1.x` policy: use pinned CDN assets (with SRI where available) for standalone libraries; keep vendored release-time artifacts only in owning plugins when runtime/module graphs are complex (for example `al_search`, `al_folio_distill`).
 - `v1.x` policy: do not add install-time downloads in `gem install` / `bundle install`.
+- `al_math` uses CDN TikZJax assets configured in `third_party_libraries.tikzjax`.
+- `toc.sidebar` uses Tocbot assets configured in `third_party_libraries.tocbot`.
 
 To update a library:
 

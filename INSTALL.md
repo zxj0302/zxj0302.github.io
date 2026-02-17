@@ -153,6 +153,7 @@ bundle exec jekyll serve
 ```
 
 In `v1.x`, `al-folio` is a thin starter. Do not run starter-local npm build commands for theme/runtime assets; those are owned by `al-*` gems and loaded through plugin contracts.
+Interactive TOC (`toc.sidebar`) and TikZ (`tikzjax: true`) use pinned CDN runtime assets from `_config.yml` (`third_party_libraries.tocbot` and `third_party_libraries.tikzjax`), not install-time downloads.
 
 If `jekyll-jupyter-notebook` is enabled and `jupyter-nbconvert` is missing, builds continue but notebook rendering is skipped with a warning.
 

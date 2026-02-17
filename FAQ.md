@@ -176,6 +176,30 @@ Compatibility timeline:
 
 The compatibility runtime (`/assets/css/bootstrap-compat.css` and `/assets/js/bootstrap-compat.js`) is provided by the `al_folio_bootstrap_compat` gem when enabled.
 
+## How does sidebar table of contents work in `v1.x`?
+
+`v1.x` uses Tocbot for sidebar TOC rendering when page front matter includes:
+
+```yaml
+toc:
+  sidebar: left # or right
+```
+
+Tocbot runtime assets are loaded from pinned CDN entries in `_config.yml` under `third_party_libraries.tocbot`.
+If needed, heading labels can be overridden using `data-toc-text` attributes.
+
+## Why does `pretty_table: true` still work when Bootstrap compatibility is disabled?
+
+When `al_folio.compat.bootstrap.enabled: false`, `v1.x` uses a built-in vanilla Tailwind table engine for `table[data-toggle="table"]` markup.
+It supports search, pagination, sortable columns, and click-to-select without requiring Bootstrap Table runtime.
+
+When compatibility is enabled, Bootstrap Table remains available for legacy content.
+
+## Why does Lightbox2 work without jQuery in `v1.x`?
+
+In `v1.x`, `al_img_tools` provides a plugin-owned lightbox adapter for `data-lightbox` markup, so lightbox galleries no longer depend on jQuery.
+Author-facing markup stays the same (`images.lightbox2: true` and `data-lightbox` links).
+
 ## I am trying to deploy my site, but it fails with `Could not find gem 'jekyll-diagrams' in locally installed gems`. How do I fix that?
 
 `jekyll-diagrams` support was dropped in [#1992](https://github.com/alshedivat/al-folio/pull/1992) in favor of using `mermaid.js` directly. Simply [update your code](INSTALL.md#upgrading-from-a-previous-version) to get the latest changes.
