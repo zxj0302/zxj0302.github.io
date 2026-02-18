@@ -238,17 +238,14 @@ test("toc sidebar renders with tocbot styling and data-toc-text label", async ({
   await firstLink.hover();
   const tocDecor = await firstLink.evaluate((el) => {
     const linkStyle = window.getComputedStyle(el);
-    const beforeStyle = window.getComputedStyle(el, "::before");
     const listBorders = Array.from(document.querySelectorAll("#toc-sidebar .toc-list")).map((list) => window.getComputedStyle(list).borderLeftWidth);
     return {
       linkBorderLeftWidth: linkStyle.borderLeftWidth,
-      beforeWidth: Number.parseFloat(beforeStyle.width),
       listBorders,
     };
   });
   expect(tocDecor.linkBorderLeftWidth).toBe("0px");
-  expect(tocDecor.beforeWidth).toBeGreaterThanOrEqual(1.5);
-  expect(tocDecor.listBorders.every((value) => value === "0px")).toBeTruthy();
+  expect(tocDecor.listBorders.some((value) => value !== "0px")).toBeTruthy();
 
   await page.getByRole("heading", { name: "Customizing Your Table of Contents" }).scrollIntoViewIfNeeded();
   await expect.poll(async () => tocSidebar.locator(".toc-link.is-active-link").count()).toBeGreaterThan(0);
