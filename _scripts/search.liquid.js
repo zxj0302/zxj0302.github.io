@@ -6,7 +6,7 @@ const ninja = document.querySelector('ninja-keys');
 
 // add the home and posts menu items
 ninja.data = [
-  {%- assign about_title = site.pages | where: "permalink", "/" | first.title | strip -%}
+  {%- assign about_title = site.pages | where: "permalink", "/" | map: "title" | first | strip -%}
   {
     id: "nav-{{ about_title | slugify }}",
     title: "{{ about_title | truncatewords: 13 }}",
