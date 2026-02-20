@@ -104,12 +104,12 @@ async function compareWithBaseline(context, currentPage, route, themeSetting) {
   await baselinePage.goto(baselineTarget, { waitUntil: "networkidle" });
   await stabilizeVisuals(baselinePage);
   await baselinePage.waitForTimeout(500);
-  const baselineBuffer = await baselinePage.screenshot({ fullPage: false });
+  const baselineBuffer = await baselinePage.screenshot({ fullPage: true });
 
   await currentPage.goto(normalizedRoute, { waitUntil: "networkidle" });
   await stabilizeVisuals(currentPage);
   await currentPage.waitForTimeout(500);
-  const currentBuffer = await currentPage.screenshot({ fullPage: false });
+  const currentBuffer = await currentPage.screenshot({ fullPage: true });
 
   await baselinePage.close();
 
