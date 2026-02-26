@@ -1,17 +1,15 @@
 ---
 layout: page
-title: Adaptive Rate Limiting Engine in Go
-description: Token-bucket and sliding-window hybrid rate limiter with Redis-backed distributed mode
+title: Echo Chamber Core Detection in Social Networks
+description: Purity-Aware Densest Subgraph for detecting and mitigating polarization in social networks
 importance: 1
-category: work
+category: research
+related_publications: true
 ---
 
-A high-performance rate limiting engine written in Go that combines token-bucket and sliding-window algorithms into a unified hybrid design.
+**The University of Hong Kong** &nbsp;·&nbsp; Jan 2024 – Present &nbsp;·&nbsp; C++, Boost, STL, Python, Git
 
-**Key highlights:**
+- Formulated Echo Chamber Core detection as a Purity-Aware Densest Subgraph problem combining structural density and stance entropy; proved NP-hardness and inapproximability
+- Designed PADS-H, a greedy algorithm achieving 2×+ speedup over baselines and \<2s runtime on 1.67M-node graphs; applied to EC detection and polarization mitigation across real-world datasets
 
-- Designed a token-bucket and sliding-window hybrid rate limiter in Go
-- Achieved 4× throughput increase via sharded atomic counters and lock-free reads
-- Supports Redis-backed distributed mode with <1 ms P99 latency under 50K RPS load
-
-**Technologies:** Go, Redis
+**Related publications:** {% cite zhu2025echochamber %}
