@@ -2,14 +2,17 @@
 layout: page
 permalink: /teaching/
 title: teaching
-description: Course materials, schedules, and resources for classes taught.
+description: Teaching assistant experience at The University of Hong Kong.
 nav: true
 nav_order: 6
-calendar: true
 ---
 
-This page displays a collection of courses with detailed schedules, materials, and resources. You can organize your courses by years, terms, or topics.
+## Teaching Assistant — The University of Hong Kong
 
-{% include calendar.liquid calendar_id='test@gmail.com' timezone='Asia/Shanghai' %}
+- **COMP3323** Advanced Database Systems (Section 2A), 2025
+- **COMP7107** Management of Complex Data Types (Section 2B), 2024
+- **COMP7106** Big Data Management (Section 2C), 2023
 
-{% include courses.liquid %}
+## Service
+
+- **Volunteer**, IEEE International Conference on Data Engineering (ICDE 2025), Hong Kong SAR, China
