@@ -427,11 +427,26 @@ ninja.data = [{
           section: "News",},{id: "news-paper-accepted-at-icde-2026-beacon-a-benchmark-for-efficient-and-accurate-counting-of-subgraphs",
           title: 'Paper accepted at ICDE 2026: “BEACON: A Benchmark for Efficient and Accurate Counting...',
           description: "",
-          section: "News",},{id: "projects-adaptive-rate-limiting-engine-in-go",
-          title: 'Adaptive Rate Limiting Engine in Go',
-          description: "Token-bucket and sliding-window hybrid rate limiter with Redis-backed distributed mode",
+          section: "News",},{id: "projects-echo-chamber-core-detection-in-social-networks",
+          title: 'Echo Chamber Core Detection in Social Networks',
+          description: "Purity-Aware Densest Subgraph for detecting and mitigating polarization in social networks",
           section: "Projects",handler: () => {
               window.location.href = "/projects/1_project/";
+            },},{id: "projects-dense-subgraph-discovery-with-negative-weights",
+          title: 'Dense Subgraph Discovery with Negative Weights',
+          description: "Scalable heuristic and exact algorithms for densest subgraph problems on signed graphs",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/2_project/";
+            },},{id: "projects-linear-shortest-path-index-on-multi-attribute-networks",
+          title: 'Linear Shortest Path Index on Multi-Attribute Networks',
+          description: "Partition-based index for preference-weighted shortest path queries on multi-criteria road networks",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/3_project/";
+            },},{id: "projects-adaptive-rate-limiting-engine-in-go",
+          title: 'Adaptive Rate Limiting Engine in Go',
+          description: "Token bucket, leaky bucket, and sliding window rate limiter with a unified strategy-pattern interface",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/4_project/";
             },},{id: "teachings-data-science-fundamentals",
           title: 'Data Science Fundamentals',
           description: "This course covers the foundational aspects of data science, including data collection, cleaning, analysis, and visualization. Students will learn practical skills for working with real-world datasets.",
